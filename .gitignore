@@ -14,3 +14,6 @@ hs_err_pid*
 
 # IDE
 .idea/
+
+# Spark Ignore which is git project
+spark/

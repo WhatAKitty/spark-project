@@ -1,4 +1,4 @@
-package com.gnet;
+package com.whatakitty;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

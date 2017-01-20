@@ -1,4 +1,4 @@
-package com.gnet;
+package com.whatakitty;
 
 /**
  * Hello world!
