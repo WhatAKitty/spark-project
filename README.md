@@ -2,7 +2,8 @@
 all solutions about web, orm and authorization based on spark.
 
 TODO List:  
-- [ ] Spark ORM
+- [X] Spark ActiveRecord(Based on [JFinal](https://github.com/jfinal/jfinal) ActiveRecord)
 - [ ] Spark Auth
 - [ ] Spark Web
-- [ ] Spark parent(package management)
+- [ ] Spark Parent(package management)
+- [ ] Spark Common
