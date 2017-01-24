@@ -28,7 +28,7 @@ extracted from the JDK download.
 `git clone git@github.com:WhatAKitty/spark-project.git`
 
 ### Import sources into your IDE
-This project is developed on Intellij IDEA. So, If you use other IDE, you could search google about how to import a intellij project.
+This project is developed on Intellij IDEA. So, If you are using other IDE, you could search google about how to import a intellij project.
 
 ## Contributing
 [Pull requests][] are welcome; see the [contributor guidelines][] for details.
