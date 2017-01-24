@@ -2,6 +2,7 @@ package com.whatakitty.config;
 
 import com.whatakitty.log.Logger;
 import com.whatakitty.utils.*;
+import org.joor.Reflect;
 
 import java.io.FileNotFoundException;
 import java.lang.reflect.Constructor;
@@ -90,6 +91,8 @@ class ConfigurationWrapper {
                         logger.error(String.format("Target configuration %s can not be instantiated.", clazz.getSimpleName()), e);
                     }
                 }
+            } else {
+                this.configuration = Reflect.on(clazz).get();
             }
         }
     }
