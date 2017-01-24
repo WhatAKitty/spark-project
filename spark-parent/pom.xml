@@ -104,6 +104,16 @@
                 <artifactId>log4j-over-slf4j</artifactId>
                 <version>1.7.21</version>
             </dependency>
+            <dependency>
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>RELEASE</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging-api</artifactId>
+                <version>1.1</version>
+            </dependency>
 
             <!-- utils -->
             <dependency>
@@ -126,6 +136,11 @@
                 <artifactId>guava</artifactId>
                 <version>19.0</version>
             </dependency>
+            <dependency>
+                <groupId>org.jooq</groupId>
+                <artifactId>joor</artifactId>
+                <version>0.9.6</version>
+            </dependency>
 
             <!-- Test -->
             <dependency>
@@ -133,6 +148,13 @@
                 <artifactId>junit</artifactId>
                 <version>4.12</version>
                 <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.16.12</version>
+                <scope>provided</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

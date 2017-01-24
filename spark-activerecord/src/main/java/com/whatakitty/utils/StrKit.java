@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.whatakitty.kit;
+package com.whatakitty.utils;
 
 /**
  * StrKit.

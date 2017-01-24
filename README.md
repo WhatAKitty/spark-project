@@ -7,3 +7,10 @@ TODO List:
 - [ ] Spark Web
 - [ ] Spark Parent(package management)
 - [ ] Spark Common
+
+## Why Spark Project
+Spark is a pretty beautiful project which is a micro framework for creating wen application.  
+So, I want to build a project that can support db query, user authorization and so on.
+
+## Features
+* Support Auto Configuration(Inspired by Spring Boot AutoConfiguration ).
