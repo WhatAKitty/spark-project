@@ -2,7 +2,7 @@
 
 TODO List
 - [x] Support Basic Auto Configuration
-- [ ] Support User Defined Configuration
+- [x] Support User Defined Configuration
 - [ ] Support Sortable Configurations
 - [x] Support Flexible Configuration Properties Location
 - [x] Support Common Log record

@@ -8,11 +8,10 @@ import java.util.Properties;
 
 /**
  * ActiveRecord Configuration.
- * // TODO customize the db properties file and other configurations.
  *
  * Created by WhatAKitty on 2017/1/23.
  */
-@Configuration
+@Configuration(withMissing = true)
 public class ActiveRecordConfiguration {
 
     private static final Logger logger = Logger.getLogger(ActiveRecordConfiguration.class);
