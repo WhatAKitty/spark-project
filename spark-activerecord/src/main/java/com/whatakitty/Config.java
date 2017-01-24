@@ -18,7 +18,7 @@ package com.whatakitty;
 
 import com.whatakitty.dialect.Dialect;
 import com.whatakitty.dialect.MysqlDialect;
-import com.whatakitty.kit.StrKit;
+import com.whatakitty.utils.StrKit;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

@@ -16,7 +16,7 @@
 
 package com.whatakitty;
 
-import com.whatakitty.kit.JsonKit;
+import com.whatakitty.utils.JsonKit;
 import com.whatakitty.log.Logger;
 import org.apache.commons.lang.ArrayUtils;
 

@@ -16,7 +16,7 @@
 
 package com.whatakitty;
 
-import com.whatakitty.kit.StrKit;
+import com.whatakitty.utils.StrKit;
 
 import java.util.Map;
 import java.util.Set;

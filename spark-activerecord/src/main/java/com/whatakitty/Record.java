@@ -16,7 +16,7 @@
 
 package com.whatakitty;
 
-import com.whatakitty.kit.JsonKit;
+import com.whatakitty.utils.JsonKit;
 
 import java.io.Serializable;
 import java.util.ArrayList;

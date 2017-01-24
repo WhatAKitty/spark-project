@@ -22,7 +22,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.sql.Connection;
 
-import com.whatakitty.kit.JsonKit;
+import com.whatakitty.utils.JsonKit;
 import com.whatakitty.log.Logger;
 
 /**

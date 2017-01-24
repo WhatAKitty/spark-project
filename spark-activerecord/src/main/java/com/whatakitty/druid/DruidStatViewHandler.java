@@ -21,7 +21,7 @@ package com.whatakitty.druid;///**
 //import javax.servlet.http.HttpServletRequest;
 //import javax.servlet.http.HttpServletResponse;
 //import com.alibaba.druid.support.http.StatViewServlet;
-//import com.whatakitty.kit.StrKit;
+//import com.whatakitty.utils.StrKit;
 //
 ///**
 // * 替代 StatViewServlet
@@ -189,7 +189,7 @@ package com.whatakitty.druid;///**
 //import javax.servlet.http.HttpServletRequest;
 //import javax.servlet.http.HttpServletResponse;
 //import com.alibaba.druid.support.http.StatViewServlet;
-//import com.whatakitty.kit.StrKit;
+//import com.whatakitty.utils.StrKit;
 //
 ///**
 // * 替代 StatViewServlet
