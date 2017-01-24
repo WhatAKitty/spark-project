@@ -1,4 +1,4 @@
 # Auto Configure
 com.whatakitty.config.Configuration=\
-  com.whatakitty.config.Text
+  com.whatakitty.config.WebAuthConfiguration
 
