@@ -23,12 +23,12 @@ import javax.sql.DataSource;
 import com.alibaba.druid.filter.Filter;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.whatakitty.IDataSourceProvider;
-import com.whatakitty.kit.StrKit;
+import com.whatakitty.utils.StrKit;
 
 /**
  * DruidPlugin.
  */
-public class DruidPlugin implements IDataSourceProvider {
+public class DruidConfiguration implements IDataSourceProvider {
 	
 	// 基本属性 url、user、password
 	private String url;
@@ -81,20 +81,20 @@ public class DruidPlugin implements IDataSourceProvider {
 	
 	private DruidDataSource ds;
 	
-	public DruidPlugin(String url, String username, String password) {
+	public DruidConfiguration(String url, String username, String password) {
 		this.url = url;
 		this.username = username;
 		this.password = password;
 	}
 	
-	public DruidPlugin(String url, String username, String password, String driverClass) {
+	public DruidConfiguration(String url, String username, String password, String driverClass) {
 		this.url = url;
 		this.username = username;
 		this.password = password;
 		this.driverClass = driverClass;
 	}
 	
-	public DruidPlugin(String url, String username, String password, String driverClass, String filters) {
+	public DruidConfiguration(String url, String username, String password, String driverClass, String filters) {
 		this.url = url;
 		this.username = username;
 		this.password = password;
@@ -110,12 +110,12 @@ public class DruidPlugin implements IDataSourceProvider {
 	 * 组合使用： "stat,wall"
 	 * </p>
 	 */
-	public DruidPlugin setFilters(String filters) {
+	public DruidConfiguration setFilters(String filters) {
 		this.filters = filters;
 		return this;
 	}
 	
-	public synchronized DruidPlugin addFilter(Filter filter) {
+	public synchronized DruidConfiguration addFilter(Filter filter) {
 		if (filterList == null)
 			filterList = new ArrayList<Filter>();
 		filterList.add(filter);
@@ -183,44 +183,44 @@ public class DruidPlugin implements IDataSourceProvider {
 		return ds;
 	}
 	
-	public DruidPlugin set(int initialSize, int minIdle, int maxActive) {
+	public DruidConfiguration set(int initialSize, int minIdle, int maxActive) {
 		this.initialSize = initialSize;
 		this.minIdle = minIdle;
 		this.maxActive = maxActive;
 		return this;
 	}
 	
-	public DruidPlugin setDriverClass(String driverClass) {
+	public DruidConfiguration setDriverClass(String driverClass) {
 		this.driverClass = driverClass;
 		return this;
 	}
 	
-	public DruidPlugin setInitialSize(int initialSize) {
+	public DruidConfiguration setInitialSize(int initialSize) {
 		this.initialSize = initialSize;
 		return this;
 	}
 	
-	public DruidPlugin setMinIdle(int minIdle) {
+	public DruidConfiguration setMinIdle(int minIdle) {
 		this.minIdle = minIdle;
 		return this;
 	}
 	
-	public DruidPlugin setMaxActive(int maxActive) {
+	public DruidConfiguration setMaxActive(int maxActive) {
 		this.maxActive = maxActive;
 		return this;
 	}
 	
-	public DruidPlugin setMaxWait(long maxWait) {
+	public DruidConfiguration setMaxWait(long maxWait) {
 		this.maxWait = maxWait;
 		return this;
 	}
 	
-	public DruidPlugin setTimeBetweenEvictionRunsMillis(long timeBetweenEvictionRunsMillis) {
+	public DruidConfiguration setTimeBetweenEvictionRunsMillis(long timeBetweenEvictionRunsMillis) {
 		this.timeBetweenEvictionRunsMillis = timeBetweenEvictionRunsMillis;
 		return this;
 	}
 	
-	public DruidPlugin setMinEvictableIdleTimeMillis(long minEvictableIdleTimeMillis) {
+	public DruidConfiguration setMinEvictableIdleTimeMillis(long minEvictableIdleTimeMillis) {
 		this.minEvictableIdleTimeMillis = minEvictableIdleTimeMillis;
 		return this;
 	}
@@ -231,27 +231,27 @@ public class DruidPlugin implements IDataSourceProvider {
 	 * DB2 - "select 1 from sysibm.sysdummy1"
 	 * mysql - "select 1"
 	 */
-	public DruidPlugin setValidationQuery(String validationQuery) {
+	public DruidConfiguration setValidationQuery(String validationQuery) {
 		this.validationQuery = validationQuery;
 		return this;
 	}
 	
-	public DruidPlugin setTestWhileIdle(boolean testWhileIdle) {
+	public DruidConfiguration setTestWhileIdle(boolean testWhileIdle) {
 		this.testWhileIdle = testWhileIdle;
 		return this;
 	}
 	
-	public DruidPlugin setTestOnBorrow(boolean testOnBorrow) {
+	public DruidConfiguration setTestOnBorrow(boolean testOnBorrow) {
 		this.testOnBorrow = testOnBorrow;
 		return this;
 	}
 	
-	public DruidPlugin setTestOnReturn(boolean testOnReturn) {
+	public DruidConfiguration setTestOnReturn(boolean testOnReturn) {
 		this.testOnReturn = testOnReturn;
 		return this;
 	}
 	
-	public DruidPlugin setMaxPoolPreparedStatementPerConnectionSize(int maxPoolPreparedStatementPerConnectionSize) {
+	public DruidConfiguration setMaxPoolPreparedStatementPerConnectionSize(int maxPoolPreparedStatementPerConnectionSize) {
 		this.maxPoolPreparedStatementPerConnectionSize = maxPoolPreparedStatementPerConnectionSize;
 		return this;
 	}

@@ -1,6 +1,6 @@
 package com.whatakitty;
 
-import com.whatakitty.druid.DruidPlugin;
+import com.whatakitty.druid.DruidConfiguration;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -10,14 +10,14 @@ import java.util.List;
 
 public class AppTest {
 
-    private DruidPlugin druidPlugin;
-    private ActiveRecordPlugin activeRecordPlugin;
+    private DruidConfiguration druidPlugin;
+    private ActiveRecord activeRecordPlugin;
 
     @Before
     public void init() {
-        druidPlugin = new DruidPlugin("jdbc:mysql://localhost:3306/spark", "spark", "spark");
+        druidPlugin = new DruidConfiguration("jdbc:mysql://localhost:3306/spark", "spark", "spark");
         druidPlugin.start();
-        activeRecordPlugin = new ActiveRecordPlugin(druidPlugin);
+        activeRecordPlugin = new ActiveRecord(druidPlugin);
         activeRecordPlugin.addMapping("test", TestModel.class);
         activeRecordPlugin.start();
     }

@@ -1,0 +1,4 @@
+# Auto Configure
+com.whatakitty.config.Configuration=\
+  com.whatakitty.ActiveRecordConfiguration
+

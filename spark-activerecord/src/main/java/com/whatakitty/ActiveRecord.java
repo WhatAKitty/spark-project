@@ -17,7 +17,7 @@
 package com.whatakitty;
 
 import com.whatakitty.dialect.Dialect;
-import com.whatakitty.kit.StrKit;
+import com.whatakitty.utils.StrKit;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ import javax.sql.DataSource;
  * ActiveRecord plugin not support mysql type year, you can use int instead of year. 
  * Mysql error message for type year when insert a record: Data truncated for column 'xxx' at row 1
  */
-public class ActiveRecordPlugin {
+public class ActiveRecord {
 	
 	private String configName = DbKit.MAIN_CONFIG_NAME;
 	private Config config = null;
@@ -46,25 +46,25 @@ public class ActiveRecordPlugin {
 	private boolean isStarted = false;
 	private List<Table> tableList = new ArrayList<Table>();
 	
-	public ActiveRecordPlugin(Config config) {
+	public ActiveRecord(Config config) {
 		if (config == null)
 			throw new IllegalArgumentException("Config can not be null");
 		this.config = config;
 	}
 	
-	public ActiveRecordPlugin(DataSource dataSource) {
+	public ActiveRecord(DataSource dataSource) {
 		this(DbKit.MAIN_CONFIG_NAME, dataSource);
 	}
 	
-	public ActiveRecordPlugin(String configName, DataSource dataSource) {
+	public ActiveRecord(String configName, DataSource dataSource) {
 		this(configName, dataSource, Connection.TRANSACTION_READ_COMMITTED);
 	}
 	
-	public ActiveRecordPlugin(DataSource dataSource, int transactionLevel) {
+	public ActiveRecord(DataSource dataSource, int transactionLevel) {
 		this(DbKit.MAIN_CONFIG_NAME, dataSource, transactionLevel);
 	}
 	
-	public ActiveRecordPlugin(String configName, DataSource dataSource, int transactionLevel) {
+	public ActiveRecord(String configName, DataSource dataSource, int transactionLevel) {
 		if (StrKit.isBlank(configName))
 			throw new IllegalArgumentException("configName can not be blank");
 		if (dataSource == null)
@@ -74,19 +74,19 @@ public class ActiveRecordPlugin {
 		this.setTransactionLevel(transactionLevel);
 	}
 	
-	public ActiveRecordPlugin(IDataSourceProvider dataSourceProvider) {
+	public ActiveRecord(IDataSourceProvider dataSourceProvider) {
 		this(DbKit.MAIN_CONFIG_NAME, dataSourceProvider);
 	}
 	
-	public ActiveRecordPlugin(String configName, IDataSourceProvider dataSourceProvider) {
+	public ActiveRecord(String configName, IDataSourceProvider dataSourceProvider) {
 		this(configName, dataSourceProvider, Connection.TRANSACTION_READ_COMMITTED);
 	}
 	
-	public ActiveRecordPlugin(IDataSourceProvider dataSourceProvider, int transactionLevel) {
+	public ActiveRecord(IDataSourceProvider dataSourceProvider, int transactionLevel) {
 		this(DbKit.MAIN_CONFIG_NAME, dataSourceProvider, transactionLevel);
 	}
 	
-	public ActiveRecordPlugin(String configName, IDataSourceProvider dataSourceProvider, int transactionLevel) {
+	public ActiveRecord(String configName, IDataSourceProvider dataSourceProvider, int transactionLevel) {
 		if (StrKit.isBlank(configName))
 			throw new IllegalArgumentException("configName can not be blank");
 		if (dataSourceProvider == null)
@@ -96,12 +96,12 @@ public class ActiveRecordPlugin {
 		this.setTransactionLevel(transactionLevel);
 	}
 	
-	public ActiveRecordPlugin addMapping(String tableName, String primaryKey, Class<? extends Model<?>> modelClass) {
+	public ActiveRecord addMapping(String tableName, String primaryKey, Class<? extends Model<?>> modelClass) {
 		tableList.add(new Table(tableName, primaryKey, modelClass));
 		return this;
 	}
 	
-	public ActiveRecordPlugin addMapping(String tableName, Class<? extends Model<?>> modelClass) {
+	public ActiveRecord addMapping(String tableName, Class<? extends Model<?>> modelClass) {
 		tableList.add(new Table(tableName, modelClass));
 		return this;
 	}
@@ -110,7 +110,7 @@ public class ActiveRecordPlugin {
 	 * Set transaction level define in java.sql.Connection
 	 * @param transactionLevel only be 0, 1, 2, 4, 8
 	 */
-	public ActiveRecordPlugin setTransactionLevel(int transactionLevel) {
+	public ActiveRecord setTransactionLevel(int transactionLevel) {
 		int t = transactionLevel;
 		if (t != 0 && t != 1  && t != 2  && t != 4  && t != 8)
 			throw new IllegalArgumentException("The transactionLevel only be 0, 1, 2, 4, 8");
@@ -118,12 +118,12 @@ public class ActiveRecordPlugin {
 		return this;
 	}
 	
-	public ActiveRecordPlugin setShowSql(boolean showSql) {
+	public ActiveRecord setShowSql(boolean showSql) {
 		this.showSql = showSql;
 		return this;
 	}
 	
-	public ActiveRecordPlugin setDevMode(boolean devMode) {
+	public ActiveRecord setDevMode(boolean devMode) {
 		this.devMode = devMode;
 		return this;
 	}
@@ -132,14 +132,14 @@ public class ActiveRecordPlugin {
 		return devMode;
 	}
 	
-	public ActiveRecordPlugin setDialect(Dialect dialect) {
+	public ActiveRecord setDialect(Dialect dialect) {
 		if (dialect == null)
 			throw new IllegalArgumentException("dialect can not be null");
 		this.dialect = dialect;
 		return this;
 	}
 	
-	public ActiveRecordPlugin setContainerFactory(IContainerFactory containerFactory) {
+	public ActiveRecord setContainerFactory(IContainerFactory containerFactory) {
 		if (containerFactory == null)
 			throw new IllegalArgumentException("containerFactory can not be null");
 		this.containerFactory = containerFactory;

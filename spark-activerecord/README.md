@@ -27,3 +27,7 @@ List<User> users = User.dao.find("select * from user where age > 18");
 // search all girls(gril's sex is 1) older than 18 years old by pagination
 Page<User> userPage = User.dao.paginate(1, 10, "select *", "from user where sex=? and age>?", 1, 18);
 ```
+
+TODO List
+- [X] Support Configurations.
+- [ ] More customize configurations.

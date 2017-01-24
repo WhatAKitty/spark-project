@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package com.whatakitty.kit;
-
-import com.whatakitty.kit.StrKit;
+package com.whatakitty.utils;
 
 import com.whatakitty.CPI;
 import com.whatakitty.Model;
