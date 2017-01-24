@@ -8,12 +8,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.gnet</groupId>
-    <artifactId>spark-auth</artifactId>
+    <groupId>com.whatakitty</groupId>
+    <artifactId>spark-web-auth</artifactId>
     <version>1.0-rc.1</version>
     <packaging>jar</packaging>
 
-    <name>spark-auth</name>
+    <name>spark-web-auth</name>
     <url>http://maven.apache.org</url>
 
     <properties>
@@ -25,6 +25,11 @@
             <groupId>com.sparkjava</groupId>
             <artifactId>spark-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.whatakitty</groupId>
+            <artifactId>spark-common</artifactId>
+            <version>1.0-rc.1</version>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.shiro</groupId>
@@ -34,5 +39,20 @@
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-web</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>joor</artifactId>
+        </dependency>
+
     </dependencies>
 </project>
