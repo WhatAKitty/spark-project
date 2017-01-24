@@ -7,8 +7,8 @@ import org.joor.Reflect;
 import java.util.*;
 
 /**
- * 配置文件管理器
- * <p>
+ * Configuration Manager
+ *
  * Created by WhatAKitty on 2017/1/21.
  */
 public class ConfigurationManager {
@@ -19,27 +19,49 @@ public class ConfigurationManager {
         ConfigurationManager.SingletonHolder.INSTANCE().start();
     }
 
+    public static <T> T getConfiguration(String configurationName) {
+        return (T) ConfigurationManager.configurationsHolder.get(configurationName);
+    }
+
     private static class SingletonHolder {
         public static ConfigurationManager INSTANCE() {
             return new ConfigurationManager();
         }
     }
 
-    private static final Map<String, Object> configurations = new HashMap<>();
+    private static final Map<String, ConfigurationWrapper> configurationsHolder = new HashMap<>();
 
-    public ConfigurationManager() {
-    }
+    private ConfigurationManager() {}
 
     /**
      * Search all configuration files.
      *
-     * @return
+     * @return the array of configuration files' name.
      */
     String[] searchConfigurations() {
-        List<String> configurations = SparkFactoriesLoader.loadFactoryNames(Configuration.class, getClass().getClassLoader());
+        List<String> configurations = SparkFactoriesLoader.loadFactoryNames(ConfigurationManager.class, getClass().getClassLoader());
         configurations = removeDuplicates(configurations);
         // TODO sort configurations.
         return configurations.toArray(new String[configurations.size()]);
+    }
+
+    /**
+     * initial the configurationsHolder.
+     *
+     * @param configurations the name of all configurations from 'META-INF/spark.factories'.
+     */
+    void initial(String[] configurations) {
+        for (String configuration : configurations) {
+            ConfigurationWrapper configurationWrapper = new ConfigurationWrapper(configuration);
+            if (ConfigurationManager.configurationsHolder.containsKey(configurationWrapper.getName()) && !configurationWrapper.withMissing()) {
+                // The configurations has the same key with this configuration and will not be overwritten.
+                if (logger.isWarnEnabled()) {
+                    logger.warn(String.format("There has the same key named %s in configurations holder.", configurationWrapper.getName()));
+                }
+                continue;
+            }
+            ConfigurationManager.configurationsHolder.put(configurationWrapper.getName(), configurationWrapper.getConfiguration());
+        }
     }
 
     /**
@@ -47,18 +69,7 @@ public class ConfigurationManager {
      */
     void start() {
         String[] configurations = searchConfigurations();
-        for (String configuration : configurations) {
-            Class<?> clazz = null;
-            try {
-                clazz = ClassUtils.forName(configuration, getClass().getClassLoader());
-                ConfigurationManager.configurations.put(clazz.getSimpleName(), Reflect.on(clazz).get());
-            } catch (ClassNotFoundException e) {
-                if (logger.isErrorEnabled()) {
-                    logger.error(String.format("Target configuration named %s is not found.", configuration), e);
-                }
-                continue;
-            }
-        }
+        initial(configurations);
     }
 
     /**
