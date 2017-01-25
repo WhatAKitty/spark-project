@@ -1,5 +1,5 @@
 # spark-project
-all solutions about web, orm and authorization based on spark.
+a solution about web, orm and authorization based on spark.
 
 TODO List:  
 - [x] Spark ActiveRecord(Based on [JFinal](https://github.com/jfinal/jfinal) ActiveRecord)
@@ -9,7 +9,7 @@ TODO List:
 - [x] Spark Common
 
 ## Why Spark Project
-Spark is a pretty beautiful project which is a micro framework for creating wen application.  
+Spark is a pretty beautiful project which is a micro framework for creating web application.  
 So, I want to build a project that can support db query, user authorization and so on.
 
 ## Features
