@@ -15,13 +15,6 @@ public @interface Configuration {
     int DEFAULT_ORDER = 10;
 
     /**
-     * Configuration name.
-     *
-     * @return the name of this configuration.
-     */
-    String name() default "";
-
-    /**
      * Configuration load order, default order:#DEFAULT_ORDER
      *
      * @return 配置顺序

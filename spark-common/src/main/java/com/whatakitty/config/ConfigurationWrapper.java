@@ -6,12 +6,10 @@ import org.joor.Reflect;
 
 import java.io.FileNotFoundException;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Parameter;
 import java.net.URL;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * The wrapper of configuration.
@@ -39,7 +37,7 @@ class ConfigurationWrapper {
 
         // get configuration annotation from configuration class
         if (!clazz.isAnnotationPresent(Configuration.class)) {
-            throw new RuntimeException(String.format("Target class %s is not configurable.", clazz.getSimpleName()));
+            throw new RuntimeException(String.format("Target class %s is not configurable.", configurationName));
         }
         this.configurationAnnotation = clazz.getAnnotation(Configuration.class);
 
@@ -64,7 +62,7 @@ class ConfigurationWrapper {
                     }
                 }
                 if (propertiesLocations.length != propertyLength) {
-                    throw new RuntimeException(String.format("Target configuration %s can not be instantiated: Properties' size is not equal to configuration locations' size.", clazz.getSimpleName()));
+                    throw new RuntimeException(String.format("Target configuration %s can not be instantiated: Properties' size is not equal to configuration locations' size.", configurationName));
                 }
 
                 // inject parameters
@@ -88,7 +86,7 @@ class ConfigurationWrapper {
                     this.configuration = constructor.newInstance(parameterValues);
                 } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
                     if (logger.isErrorEnabled()) {
-                        logger.error(String.format("Target configuration %s can not be instantiated.", clazz.getSimpleName()), e);
+                        logger.error(String.format("Target configuration %s can not be instantiated.", configurationName), e);
                     }
                 }
             } else {
@@ -110,7 +108,7 @@ class ConfigurationWrapper {
 
         } catch (FileNotFoundException e) {
             if (logger.isErrorEnabled()) {
-                logger.error(String.format("The %s configuration file properties %s is not exists. ", clazz.getSimpleName(), propertiesLocation), e);
+                logger.error(String.format("The %s configuration file properties %s is not exists. ", clazz.getName(), propertiesLocation), e);
             }
             throw new RuntimeException(e);
         }
@@ -124,7 +122,7 @@ class ConfigurationWrapper {
      * @return the name of the configuration
      */
     final String getName() {
-        return StringUtils.isBlank(this.configurationAnnotation.name()) ? this.configuration.getClass().getSimpleName() : this.configurationAnnotation.name();
+        return this.configuration.getClass().getName();
     }
 
     /**
@@ -135,6 +133,15 @@ class ConfigurationWrapper {
      */
     final <T> T getConfiguration() {
         return (T) this.configuration;
+    }
+
+    /**
+     * Get the configuration annotation content.
+     *
+     * @return the content of configuration annotation
+     */
+    final Configuration getConfigurationAnnotation() {
+        return this.configurationAnnotation;
     }
 
     final Properties getProperties(String propertiesName) {

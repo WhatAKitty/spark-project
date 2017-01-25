@@ -12,7 +12,7 @@ public class ActiveRecordConfigurationTest {
     @Test
     public void test() {
         ConfigurationManager.enableAutoConfiguration();
-        ActiveRecordConfiguration activeRecordConfiguration = ConfigurationManager.getConfiguration(ActiveRecordConfiguration.class.getSimpleName());
+        ActiveRecordConfiguration activeRecordConfiguration = ConfigurationManager.getConfiguration(ActiveRecordConfiguration.class.getName());
         Assert.assertNotNull(activeRecordConfiguration);
         Assert.assertNotNull(Db.findFirst("select * from test limit 1"));
     }
