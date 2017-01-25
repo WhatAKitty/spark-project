@@ -5,7 +5,6 @@ TODO List:
 - [x] Spark ActiveRecord(Based on [JFinal](https://github.com/jfinal/jfinal) ActiveRecord)
 - [x] Spark Auth
 - [x] Spark Web(Empty Project While Nothing Can Do)
-- [ ] Spark UI(Based on Bootstrap4/Bootstrap3/layui?)
 - [x] Spark Parent(Package management)
 - [x] Spark Common
 
