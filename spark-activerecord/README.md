@@ -29,5 +29,5 @@ Page<User> userPage = User.dao.paginate(1, 10, "select *", "from user where sex=
 ```
 
 TODO List
-- [X] Support Configurations.
-- [ ] More customize configurations.
+- [x] Support Configurations.
+- [x] More customize configurations.
