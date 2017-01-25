@@ -33,6 +33,17 @@ public class ConfigurationManager {
 
     private ConfigurationManager() {}
 
+    void sort(List<String> configurations) {
+        // Initially sort alphabetically
+        Collections.sort(configurations);
+        // Then sort by order
+        Collections.sort(configurations, (o1, o2) -> {
+            int i1 = configurationsHolder.get(o1).getConfigurationAnnotation().order();
+            int i2 = configurationsHolder.get(o2).getConfigurationAnnotation().order();
+            return (i1 < i2) ? -1 : (i1 > i2) ? 1 : 0;
+        });
+    }
+
     /**
      * Search all configuration files.
      *
@@ -41,7 +52,7 @@ public class ConfigurationManager {
     String[] searchConfigurations() {
         List<String> configurations = SparkFactoriesLoader.loadFactoryNames(ConfigurationManager.class, getClass().getClassLoader());
         configurations = removeDuplicates(configurations);
-        // TODO sort configurations.
+        sort(configurations);
         return configurations.toArray(new String[configurations.size()]);
     }
 
