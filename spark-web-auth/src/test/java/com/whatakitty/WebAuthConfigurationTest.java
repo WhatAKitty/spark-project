@@ -8,7 +8,7 @@ import org.junit.Test;
 /**
  * Created by WhatAKitty on 2017/1/23.
  */
-public class ConfigTest {
+public class WebAuthConfigurationTest {
 
     @Test
     public void search() {

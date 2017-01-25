@@ -92,7 +92,7 @@ class ConfigurationWrapper {
                     }
                 }
             } else {
-                this.configuration = Reflect.on(clazz).get();
+                this.configuration = Reflect.on(clazz).create();
             }
         }
     }

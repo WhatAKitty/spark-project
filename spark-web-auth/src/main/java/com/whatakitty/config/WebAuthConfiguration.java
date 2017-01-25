@@ -11,7 +11,7 @@ import org.apache.shiro.util.Factory;
 @Configuration(withMissing = true)
 public class WebAuthConfiguration {
 
-    private static final String INI_LOCATION = "META-INF/shiro.ini";
+    private static final String INI_LOCATION = "classpath:META-INF/shiro.ini";
 
     public WebAuthConfiguration() {
         Factory<SecurityManager> factory = new IniSecurityManagerFactory(INI_LOCATION);

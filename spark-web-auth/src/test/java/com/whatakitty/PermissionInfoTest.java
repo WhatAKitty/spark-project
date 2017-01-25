@@ -2,41 +2,37 @@ package com.whatakitty;
 
 import static spark.Spark.*;
 
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import com.whatakitty.config.ConfigurationManager;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import java.io.IOException;
 
 /**
  * Created by WhatAKitty on 2017/1/21.
  */
-public class PermissionInfoTest extends TestCase {
+public class PermissionInfoTest {
 
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public PermissionInfoTest( String testName )
-    {
-        super( testName );
+    @AfterClass
+    public static void tearDown() {
+        stop();
     }
 
-    /**
-     * @return the suite of tests being tested
-     */
-    public static junit.framework.Test suite()
-    {
-        return new TestSuite( AppTest.class );
+    @BeforeClass
+    public static void setup() throws IOException {
+        ConfigurationManager.enableAutoConfiguration();
+        SecurityUtils.getSubject().login(new UsernamePasswordToken("admin", "1234"));
     }
 
     /**
      * Rigourous Test :-)
      */
+    @Test
     public void testApp() {
-        PermissionInfo.permissionBased("admin:main:view").permitted().complete(() -> {
-            get("/", (req, res) -> {
-                return "hello world!";
-            });
-        });
+        PermissionInfo.permissionBased("admin:main:view").permitted().complete(() -> get("/", (req, res) -> "hello world!"));
     }
 
 }
