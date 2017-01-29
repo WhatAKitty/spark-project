@@ -1,4 +1,0 @@
-# Auto Configure
-com.whatakitty.config.ConfigurationManager=\
-  com.whatakitty.config.WebAuthConfiguration
-
