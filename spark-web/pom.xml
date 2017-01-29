@@ -13,13 +13,21 @@
     <packaging>jar</packaging>
 
     <name>spark-web</name>
+    <url>http://maven.apache.org</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <dependencies>
         <dependency>
+<<<<<<< HEAD
             <groupId>com.sparkjava</groupId>
             <artifactId>spark-core</artifactId>
         </dependency>
         <dependency>
+=======
+>>>>>>> origin/master
             <groupId>com.whatakitty</groupId>
             <artifactId>spark-common</artifactId>
             <version>1.0-rc.1</version>
