@@ -16,11 +16,6 @@
     <name>spark-common</name>
 
     <dependencies>
-        <!--<dependency>-->
-            <!--<groupId>com.sparkjava</groupId>-->
-            <!--<artifactId>spark-core</artifactId>-->
-        <!--</dependency>-->
-
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>

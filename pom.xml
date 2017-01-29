@@ -10,6 +10,9 @@
     <groupId>com.whatakitty</groupId>
     <artifactId>spark-project-build</artifactId>
     <version>1.0-rc.1-SNAPSHOT</version>
+    <modules>
+        <module>../spark-spring</module>
+    </modules>
     <packaging>pom</packaging>
     <name>Spark Project Build</name>
     <description>Spark Project Build</description>
