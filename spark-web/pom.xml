@@ -20,8 +20,9 @@
             <artifactId>spark-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
+            <groupId>com.whatakitty</groupId>
+            <artifactId>spark-common</artifactId>
+            <version>1.0-rc.1</version>
         </dependency>
     </dependencies>
 </project>
