@@ -4,7 +4,7 @@
         <artifactId>spark-parent</artifactId>
         <groupId>com.whatakitty</groupId>
         <version>1.0-rc.1</version>
-        <relativePath>../spark-parent/pom.xml</relativePath>
+        <relativePath>../spark-parent</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -14,11 +14,6 @@
     <packaging>jar</packaging>
 
     <name>spark-common</name>
-    <url>http://maven.apache.org</url>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 
     <dependencies>
         <!--<dependency>-->
@@ -50,6 +45,10 @@
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
         </dependency>
     </dependencies>
 

@@ -2,12 +2,15 @@ package com.whatakitty.config;
 
 import com.whatakitty.log.Logger;
 import com.whatakitty.utils.*;
+import com.whatakitty.utils.ClassUtils;
+import org.apache.commons.lang3.*;
 import org.joor.Reflect;
 
 import java.io.FileNotFoundException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Parameter;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 
@@ -105,7 +108,6 @@ class ConfigurationWrapper {
         URL propertiesUrl = null;
         try {
             propertiesUrl = ResourceUtils.getURL(propertiesLocation);
-
         } catch (FileNotFoundException e) {
             if (logger.isErrorEnabled()) {
                 logger.error(String.format("The %s configuration file properties %s is not exists. ", clazz.getName(), propertiesLocation), e);

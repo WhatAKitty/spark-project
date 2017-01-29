@@ -4,12 +4,10 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.subject.Subject;
-import sun.rmi.runtime.Log;
 
 import java.util.Arrays;
 
 import static spark.Spark.halt;
-
 
 /**
  * 权限信息

@@ -5,10 +5,35 @@
     <groupId>com.whatakitty</groupId>
     <artifactId>spark-parent</artifactId>
     <version>1.0-rc.1</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <name>spark-parent</name>
-    <url>http://maven.apache.org</url>
+    <description>Spark Project Build</description>
+    <url>https://github.com/WhatAKitty/spark-project/</url>
+
+    <licenses>
+        <license>
+            <name>MIT</name>
+            <url>https://github.com/WhatAKitty/spark-project/blob/master/LICENSE</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <id>whatakitty</id>
+            <name>WhatAKitty</name>
+            <email>104xuqiang@163.com</email>
+        </developer>
+    </developers>
+
+    <scm>
+        <url>https://github.com/WhatAKitty/spark-project.git</url>
+        <connection>scm:git:git://github.com/WhatAKitty/spark-project.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:WhatAKitty/spark-project.git</developerConnection>
+    </scm>
+    <issueManagement>
+        <system>Github</system>
+        <url>https://github.com/WhatAKitty/spark-project/issues</url>
+    </issueManagement>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -21,7 +46,7 @@
             <dependency>
                 <groupId>com.sparkjava</groupId>
                 <artifactId>spark-core</artifactId>
-                <version>2.5.5-SNAPSHOT</version>
+                <version>2.5.4</version>
             </dependency>
 
             <!-- shiro -->
@@ -179,6 +204,92 @@
                     <debug>true</debug>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.3</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <charset>UTF-8</charset>
+                    <additionalparam>-Xdoclint:none</additionalparam>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+        <repository>
+            <id>sonatype-nexus-staging</id>
+            <name>OSS</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
+        <snapshotRepository>
+            <id>sonatype-nexus-snapshots</id>
+            <name>OSS Snapshots</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <profiles>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <repositories>
+                <!-- Repositories to allow snapshot and milestone BOM imports during
+                    development. This section is stripped out when a full release is prepared. -->
+                <repository>
+                    <id>oss</id>
+                    <name>OSS</name>
+                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>oss-snapshots</id>
+                    <name>OSS Snapshots</name>
+                    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+        </profile>
+        <profile>
+            <id>integration-test</id>
+        </profile>
+    </profiles>
+
 </project>

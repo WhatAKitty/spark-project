@@ -3,6 +3,7 @@ package com.whatakitty.utils;
 import com.whatakitty.log.Logger;
 
 import java.io.*;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Properties;
 
@@ -21,9 +22,14 @@ public class PropertiesLoaderUtils {
         Properties properties = new Properties();
 
         File file = null;
-        FileInputStream stream = null;
+        InputStream stream = null;
         try {
-            file = ResourceUtils.getFile(url);
+            if (ResourceUtils.isJarURL(url)) {
+                url = ResourceUtils.extractJarFileURL(url);
+                file = ResourceUtils.getFile(url);
+            } else if (ResourceUtils.isFileURL(url)) {
+                file = ResourceUtils.getFile(url);
+            }
             stream = new FileInputStream(file);
 
             properties.load(stream);
