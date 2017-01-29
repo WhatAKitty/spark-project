@@ -21,13 +21,10 @@
 
     <dependencies>
         <dependency>
-<<<<<<< HEAD
             <groupId>com.sparkjava</groupId>
             <artifactId>spark-core</artifactId>
         </dependency>
         <dependency>
-=======
->>>>>>> origin/master
             <groupId>com.whatakitty</groupId>
             <artifactId>spark-common</artifactId>
             <version>1.0-rc.1</version>
