@@ -8,6 +8,7 @@ TODO List:
 - [x] Spark Web Auth
 - [x] Spark Web(Empty Project While Nothing Can Do)
 - [ ] Spark Spring(Combined with Spring Framework)[Attention: Not Support Spring Boot]
+- [ ] Spark ActiveRecord Spring(Using Spring DataSource Management And Transaction Management)
 
 ## Why Spark Project
 Spark is a pretty beautiful project which is a micro framework for creating web application.  
