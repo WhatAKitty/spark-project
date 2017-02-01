@@ -4,6 +4,8 @@ import com.whatakitty.config.Configuration;
 import com.whatakitty.config.ConfigurationProperties;
 import com.whatakitty.druid.DruidConfiguration;
 import com.whatakitty.log.Logger;
+import com.whatakitty.tablebind.AutoTableBind;
+
 import java.util.Properties;
 
 /**
@@ -25,8 +27,10 @@ public class ActiveRecordConfiguration {
         DruidConfiguration druidConfiguration = new DruidConfiguration(url, username, password, driverClass);
         druidConfiguration.start();
 
-        ActiveRecord activeRecord = new ActiveRecord(druidConfiguration.getDataSource());
-        activeRecord.start();
+        AutoTableBind autoTableBind = new AutoTableBind(druidConfiguration.getDataSource());
+        autoTableBind.autoScan(true);
+        autoTableBind.setShowSql(true);
+        autoTableBind.start();
     }
 
 }

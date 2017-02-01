@@ -4,7 +4,7 @@
         <artifactId>spark-parent</artifactId>
         <groupId>com.whatakitty</groupId>
         <version>1.0-rc.1</version>
-        <relativePath>../spark-project/spark-parent/pom.xml</relativePath>
+        <relativePath>../spark-parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 

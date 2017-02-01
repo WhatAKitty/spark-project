@@ -30,4 +30,5 @@ Page<User> userPage = User.dao.paginate(1, 10, "select *", "from user where sex=
 
 TODO List
 - [x] Support Configurations.
+- [x] Support Auto Table Bind.
 - [x] More customize configurations.

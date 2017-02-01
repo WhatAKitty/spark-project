@@ -25,12 +25,13 @@ public class PropertiesLoaderUtils {
         InputStream stream = null;
         try {
             if (ResourceUtils.isJarURL(url)) {
-                url = ResourceUtils.extractJarFileURL(url);
-                file = ResourceUtils.getFile(url);
+                String propertiesUrl = url.getPath().split(ResourceUtils.JAR_URL_SEPARATOR)[1];
+                ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+                stream = classLoader.getResourceAsStream(propertiesUrl);
             } else if (ResourceUtils.isFileURL(url)) {
                 file = ResourceUtils.getFile(url);
+                stream = new FileInputStream(file);
             }
-            stream = new FileInputStream(file);
 
             properties.load(stream);
 

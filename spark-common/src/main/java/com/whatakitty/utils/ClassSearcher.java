@@ -13,37 +13,54 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.whatakitty.config;
+package com.whatakitty.utils;
+
+import com.google.common.collect.Lists;
+import com.whatakitty.log.Logger;
+import org.joor.Reflect;
 
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import com.whatakitty.utils.PathUtils;
-import com.whatakitty.log.Logger;
-import org.joor.Reflect;
+public class ClassSearcher {
 
-import com.google.common.collect.Lists;
-
-public class ConfigurationSearcher {
-
-    protected static final Logger LOG = Logger.getLogger(ConfigurationSearcher.class);
+    protected static final Logger LOG = Logger.getLogger(ClassSearcher.class);
 
     @SuppressWarnings("unchecked")
-    private static List<Class<Configuration>> extraction(List<String> classFileList) {
-        List<Class<Configuration>> classList = Lists.newArrayList();
+    private static <T> List<Class<? extends T>> extraction(Class<T> clazz, List<String> classFileList) {
+        List<Class<? extends T>> classList = Lists.newArrayList();
         for (String classFile : classFileList) {
-            Class<Configuration> classInFile = Reflect.on(classFile).get();
-            if (classInFile.isAnnotationPresent(Configuration.class)) {
-                classList.add(classInFile);
+            Class<?> classInFile = Reflect.on(classFile).get();
+            if (clazz.isAssignableFrom(classInFile) && clazz != classInFile) {
+                classList.add((Class<? extends T>) classInFile);
             }
         }
 
         return classList;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T extends Annotation> List<Class<? extends T>> annotationed(Class<T> clazz, List<String> classFileList) {
+        List<Class<? extends T>> classList = Lists.newArrayList();
+        for (String classFile : classFileList) {
+            Class<?> classInFile = Reflect.on(classFile).get();
+            if (classInFile.isAnnotationPresent(clazz)) {
+                classList.add((Class<? extends T>) classInFile);
+            }
+        }
+
+        return classList;
+    }
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
+	public static ClassSearcher of(Class target) {
+        return new ClassSearcher(target);
     }
 
     /**
@@ -72,8 +89,8 @@ public class ConfigurationSearcher {
                     classFiles.addAll(findFiles(baseDirName + File.separator + filelist[i], targetFileName));
                 } else {
                     tempName = readfile.getName();
-                    if (ConfigurationSearcher.wildcardMatch(targetFileName, tempName)) {
-                        String classname = null;
+                    if (ClassSearcher.wildcardMatch(targetFileName, tempName)) {
+                        String classname;
                         String tem = readfile.getAbsoluteFile().toString().replaceAll("\\\\", "/");
                         if (tem.indexOf("/classes") > -1) {
                             classname = tem.substring(tem.indexOf("/classes") + "/classes".length() + 1,
@@ -141,14 +158,22 @@ public class ConfigurationSearcher {
 
     private String libDir = PathUtils.getWebRootPath() + File.separator + "WEB-INF" + File.separator + "lib";
 
-    public ConfigurationSearcher injars(List<String> jars) {
+    @SuppressWarnings({"rawtypes", "unchecked"})
+	private Class target;
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
+	public ClassSearcher(Class target) {
+        this.target = target;
+    }
+
+    public ClassSearcher injars(List<String> jars) {
         if (jars != null) {
             includeJars.addAll(jars);
         }
         return this;
     }
 
-    public ConfigurationSearcher inJars(String... jars) {
+    public ClassSearcher inJars(String... jars) {
         if (jars != null) {
             for (String jar : jars) {
                 includeJars.add(jar);
@@ -157,15 +182,16 @@ public class ConfigurationSearcher {
         return this;
     }
 
-    public ConfigurationSearcher classpath(String classpath) {
+    public ClassSearcher classpath(String classpath) {
         this.classpath = classpath;
         return this;
     }
 
-	public List<Class<Configuration>> search() {
+    @SuppressWarnings("unchecked")
+	public <T> List<Class<? extends T>> search() {
         List<String> classFileList = findFiles(classpath, "*.class");
         classFileList.addAll(findjarFiles(libDir, includeJars));
-        return extraction(classFileList);
+        return extraction(target, classFileList);
     }
 
     /**
@@ -174,8 +200,6 @@ public class ConfigurationSearcher {
      * @param baseDirName
      *            jar路径
      * @param includeJars
-     * @return jarFileURL
-     *            jar文件地址 <a href="http://my.oschina.net/u/556800" target="_blank" rel="nofollow">@return</a>
      */
     private List<String> findjarFiles(String baseDirName, final List<String> includeJars) {
         List<String> classFiles = Lists.newArrayList();
@@ -213,12 +237,12 @@ public class ConfigurationSearcher {
 
     }
 
-    public ConfigurationSearcher includeAllJarsInLib(boolean includeAllJarsInLib) {
+    public ClassSearcher includeAllJarsInLib(boolean includeAllJarsInLib) {
         this.includeAllJarsInLib = includeAllJarsInLib;
         return this;
     }
 
-    public ConfigurationSearcher libDir(String libDir) {
+    public ClassSearcher libDir(String libDir) {
         this.libDir = libDir;
         return this;
     }
