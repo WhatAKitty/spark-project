@@ -6,7 +6,7 @@ TODO List:
 - [x] Spark Common
 - [x] Spark ActiveRecord(Based on [JFinal](https://github.com/jfinal/jfinal) ActiveRecord)
 - [x] Spark Web Auth
-- [x] Spark Web(Empty Project While Nothing Can Do)
+- [x] Spark Web
 - [ ] Spark Spring(Combined with Spring Framework)[Attention: Not Support Spring Boot]
 - [ ] Spark ActiveRecord Spring(Using Spring DataSource Management And Transaction Management)
 
