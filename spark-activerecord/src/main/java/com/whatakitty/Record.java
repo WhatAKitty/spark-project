@@ -42,7 +42,7 @@ public class Record implements Serializable {
 	 * @param configName the config name
 	 */
 	public Record setContainerFactoryByConfigName(String configName) {
-		Config config = DbKit.getConfig(configName);
+		AbstractConfig config = DbKit.getConfig(configName);
 		if (config == null)
 			throw new IllegalArgumentException("Config not found: " + configName);
 		
@@ -56,7 +56,7 @@ public class Record implements Serializable {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void processColumnsMap(Config config) {
+	private void processColumnsMap(AbstractConfig config) {
 		if (columns == null || columns.size() == 0) {
 			columns = config.containerFactory.getColumnsMap();
 		} else {
@@ -73,7 +73,7 @@ public class Record implements Serializable {
 	public Map<String, Object> getColumns() {
 		if (columns == null) {
 			if (DbKit.config == null)
-				columns = DbKit.brokenConfig.containerFactory.getColumnsMap();
+				columns = DbKit.brokenConfig().containerFactory.getColumnsMap();
 			else
 				columns = DbKit.config.containerFactory.getColumnsMap();
 		}

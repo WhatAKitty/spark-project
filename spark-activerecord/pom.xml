@@ -20,6 +20,17 @@
             <artifactId>spark-common</artifactId>
             <version>1.0-rc.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.whatakitty</groupId>
+            <artifactId>spark-spring</artifactId>
+            <version>1.0-rc.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.whatakitty</groupId>
+                    <artifactId>spark-common</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
         <dependency>
             <groupId>mysql</groupId>
@@ -33,6 +44,15 @@
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
         </dependency>
     </dependencies>
 </project>

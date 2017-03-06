@@ -36,7 +36,7 @@ public class Db {
 		return DbPro.use(configName);
 	}
 	
-	static <T> List<T> query(Config config, Connection conn, String sql, Object... paras) throws SQLException {
+	static <T> List<T> query(AbstractConfig config, Connection conn, String sql, Object... paras) throws SQLException {
 		return pro.query(config, conn, sql, paras);
 	}
 	
@@ -190,7 +190,7 @@ public class Db {
 	/**
 	 * Execute sql update
 	 */
-	static int update(Config config, Connection conn, String sql, Object... paras) throws SQLException {
+	static int update(AbstractConfig config, Connection conn, String sql, Object... paras) throws SQLException {
 		return pro.update(config, conn, sql, paras);
 	}
 	
@@ -214,7 +214,7 @@ public class Db {
 		return pro.update(sql);
 	}
 	
-	static List<Record> find(Config config, Connection conn, String sql, Object... paras) throws SQLException {
+	static List<Record> find(AbstractConfig config, Connection conn, String sql, Object... paras) throws SQLException {
 		return pro.find(config, conn, sql, paras);
 	}
 	
@@ -338,7 +338,7 @@ public class Db {
 		return pro.delete(tableName, record);
 	}
 	
-	static Page<Record> paginate(Config config, Connection conn, int pageNumber, int pageSize, String select, String sqlExceptSelect, Object... paras) throws SQLException {
+	static Page<Record> paginate(AbstractConfig config, Connection conn, int pageNumber, int pageSize, String select, String sqlExceptSelect, Object... paras) throws SQLException {
 		return pro.paginate(config, conn, pageNumber, pageSize, select, sqlExceptSelect, paras);
 	}
 	
@@ -356,7 +356,7 @@ public class Db {
 		return pro.paginate(pageNumber, pageSize, select, sqlExceptSelect);
 	}
 	
-	static boolean save(Config config, Connection conn, String tableName, String primaryKey, Record record) throws SQLException {
+	static boolean save(AbstractConfig config, Connection conn, String tableName, String primaryKey, Record record) throws SQLException {
 		return pro.save(config, conn, tableName, primaryKey, record);
 	}
 	
@@ -378,7 +378,7 @@ public class Db {
 		return pro.save(tableName, record);
 	}
 	
-	static boolean update(Config config, Connection conn, String tableName, String primaryKey, Record record) throws SQLException {
+	static boolean update(AbstractConfig config, Connection conn, String tableName, String primaryKey, Record record) throws SQLException {
 		return pro.update(config, conn, tableName, primaryKey, record);
 	}
 	
@@ -413,7 +413,7 @@ public class Db {
 	 * @param config the Config object
 	 * @param callback the ICallback interface
 	 */
-	static Object execute(Config config, ICallback callback) {
+	static Object execute(AbstractConfig config, ICallback callback) {
 		return pro.execute(config, callback);
 	}
 	
@@ -424,7 +424,7 @@ public class Db {
 	 * @param atom the atom operation
 	 * @return true if transaction executing succeed otherwise false
 	 */
-	static boolean tx(Config config, int transactionLevel, IAtom atom) {
+	static boolean tx(AbstractConfig config, int transactionLevel, IAtom atom) {
 		return pro.tx(config, transactionLevel, atom);
 	}
 	

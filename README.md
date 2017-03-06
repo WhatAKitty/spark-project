@@ -4,11 +4,10 @@ a solution about web, orm and authorization based on spark.
 TODO List:  
 - [x] Spark Parent(Package management)
 - [x] Spark Common
-- [x] Spark ActiveRecord(Based on [JFinal](https://github.com/jfinal/jfinal) ActiveRecord)
+- [x] Spark ActiveRecord(Based on [JFinal](https://github.com/jfinal/jfinal) ActiveRecord， Support Using Spring DataSource Management And Transaction Management)
 - [x] Spark Web Auth
 - [x] Spark Web
 - [ ] Spark Spring(Combined with Spring Framework)[Attention: Not Support Spring Boot]
-- [ ] Spark ActiveRecord Spring(Using Spring DataSource Management And Transaction Management)
 
 ## Why Spark Project
 Spark is a pretty beautiful project which is a micro framework for creating web application.  

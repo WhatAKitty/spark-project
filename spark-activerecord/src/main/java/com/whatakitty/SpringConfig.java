@@ -1,6 +1,10 @@
 package com.whatakitty;
 
+import com.whatakitty.AbstractConfig;
+import com.whatakitty.IContainerFactory;
 import com.whatakitty.dialect.Dialect;
+import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.springframework.jdbc.support.JdbcUtils;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -11,19 +15,19 @@ import java.sql.Statement;
 /**
  * Created by WhatAKitty on 2017/3/6.
  */
-public class Config extends AbstractConfig {
+public class SpringConfig extends AbstractConfig {
 
     /**
      * For DbKit.brokenConfig = new Config();
      */
-    Config() {
+    SpringConfig() {
     }
 
     /**
      * Constructor with DataSource
      * @param dataSource the dataSource, can not be null
      */
-    public Config(String name, DataSource dataSource) {
+    public SpringConfig(String name, DataSource dataSource) {
         super(name, dataSource);
     }
 
@@ -32,7 +36,7 @@ public class Config extends AbstractConfig {
      * @param dataSource the dataSource, can not be null
      * @param dialect the dialect, can not be null
      */
-    public Config(String name, DataSource dataSource, Dialect dialect) {
+    public SpringConfig(String name, DataSource dataSource, Dialect dialect) {
         super(name, dataSource, dialect);
     }
 
@@ -45,54 +49,42 @@ public class Config extends AbstractConfig {
      * @param transactionLevel the transaction level, set null with default value: Connection.TRANSACTION_READ_COMMITTED
      * @param containerFactory the containerFactory, set null with default value: new IContainerFactory(){......}
      */
-    public Config(String name,
-                          DataSource dataSource,
-                          Dialect dialect,
-                          Boolean showSql,
-                          Boolean devMode,
-                          Integer transactionLevel,
-                          IContainerFactory containerFactory) {
+    public SpringConfig(String name,
+                  DataSource dataSource,
+                  Dialect dialect,
+                  Boolean showSql,
+                  Boolean devMode,
+                  Integer transactionLevel,
+                  IContainerFactory containerFactory) {
         super(name, dataSource, dialect, showSql, devMode, transactionLevel, containerFactory);
     }
 
     @Override
     public Connection getConnection() throws SQLException {
-		Connection conn = threadLocal.get();
-		if (conn != null)
-			return conn;
-		return showSql ? new SqlReporter(dataSource.getConnection()).getConnection() : dataSource.getConnection();
+        return DataSourceUtils.getConnection(dataSource);
     }
 
     @Override
     public Connection getThreadLocalConnection() {
-        return threadLocal.get();
+        return DataSourceUtils.getConnection(dataSource);
     }
 
     @Override
     public void close(ResultSet rs, Statement st, Connection conn) {
-        if (rs != null) {try {rs.close();} catch (SQLException e) {}}
-		if (st != null) {try {st.close();} catch (SQLException e) {}}
-
-		if (threadLocal.get() == null) {	// in transaction if conn in threadlocal
-			if (conn != null) {try {conn.close();}
-			catch (SQLException e) {throw new ActiveRecordException(e);}}
-		}
+        if (rs != null) JdbcUtils.closeResultSet(rs);
+        if (st != null) JdbcUtils.closeStatement(st);
+        DataSourceUtils.releaseConnection(conn, getDataSource());
     }
 
     @Override
     public void close(Statement st, Connection conn) {
-        if (st != null) {try {st.close();} catch (SQLException e) {}}
-
-		if (threadLocal.get() == null) {	// in transaction if conn in threadlocal
-			if (conn != null) {try {conn.close();}
-			catch (SQLException e) {throw new ActiveRecordException(e);}}
-		}
+        if (st != null) JdbcUtils.closeStatement(st);
+        DataSourceUtils.releaseConnection(conn, getDataSource());
     }
 
     @Override
     public void close(Connection conn) {
-        if (threadLocal.get() == null)		// in transaction if conn in threadlocal
-			if (conn != null)
-				try {conn.close();} catch (SQLException e) {throw new ActiveRecordException(e);}
+        DataSourceUtils.releaseConnection(conn, getDataSource());
     }
+
 }

@@ -39,7 +39,7 @@ public class DbPro {
 	
     private final Logger logger = Logger.getLogger(Model.class);
   
-	private final Config config;
+	private final AbstractConfig config;
 	private static final Map<String, DbPro> map = new HashMap<String, DbPro>();
 	
 	public DbPro() {
@@ -67,7 +67,7 @@ public class DbPro {
 		return use(DbKit.config.name);
 	}
 	
-	<T> List<T> query(Config config, Connection conn, String sql, Object... paras) throws SQLException {
+	<T> List<T> query(AbstractConfig config, Connection conn, String sql, Object... paras) throws SQLException {
 		List result = new ArrayList();
 		logger.info("sql:"+sql.toString()+"[ "+ ArrayUtils.toString(paras)+" ]");
 		PreparedStatement pst = conn.prepareStatement(sql);
@@ -260,7 +260,7 @@ public class DbPro {
 	/**
 	 * Execute sql update
 	 */
-	int update(Config config, Connection conn, String sql, Object... paras) throws SQLException {
+	int update(AbstractConfig config, Connection conn, String sql, Object... paras) throws SQLException {
 	    logger.info("sql:"+sql.toString()+"[ "+ArrayUtils.toString(paras)+" ]");
 		PreparedStatement pst = conn.prepareStatement(sql);
 		config.dialect.fillStatement(pst, paras);
@@ -309,7 +309,7 @@ public class DbPro {
 		return id;
 	}
 	
-	List<Record> find(Config config, Connection conn, String sql, Object... paras) throws SQLException {
+	List<Record> find(AbstractConfig config, Connection conn, String sql, Object... paras) throws SQLException {
 	    logger.info("sql:"+sql.toString()+"[ "+ArrayUtils.toString(paras)+" ]");
 		PreparedStatement pst = conn.prepareStatement(sql);
 		config.dialect.fillStatement(pst, paras);
@@ -457,7 +457,7 @@ public class DbPro {
 		return deleteById(tableName, defaultPrimaryKey, record.get(defaultPrimaryKey));
 	}
 	
-	Page<Record> paginate(Config config, Connection conn, int pageNumber, int pageSize, String select, String sqlExceptSelect, Object... paras) throws SQLException {
+	Page<Record> paginate(AbstractConfig config, Connection conn, int pageNumber, int pageSize, String select, String sqlExceptSelect, Object... paras) throws SQLException {
 		if (pageNumber < 1 || pageSize < 1)
 			throw new ActiveRecordException("pageNumber and pageSize must be more than 0");
 		
@@ -511,7 +511,7 @@ public class DbPro {
 		return paginate(pageNumber, pageSize, select, sqlExceptSelect, DbKit.NULL_PARA_ARRAY);
 	}
 	
-	boolean save(Config config, Connection conn, String tableName, String primaryKey, Record record) throws SQLException {
+	boolean save(AbstractConfig config, Connection conn, String tableName, String primaryKey, Record record) throws SQLException {
 		List<Object> paras = new ArrayList<Object>();
 		StringBuilder sql = new StringBuilder();
 		config.dialect.forDbSave(sql, paras, tableName, record);
@@ -556,7 +556,7 @@ public class DbPro {
 		return save(tableName, config.dialect.getDefaultPrimaryKey(), record);
 	}
 	
-	boolean update(Config config, Connection conn, String tableName, String primaryKey, Record record) throws SQLException {
+	boolean update(AbstractConfig config, Connection conn, String tableName, String primaryKey, Record record) throws SQLException {
 		Object id = record.get(primaryKey);
 		if (id == null)
 			throw new ActiveRecordException("You can't update model without Primary Key.");
@@ -611,7 +611,7 @@ public class DbPro {
 	 * @param config the Config object
 	 * @param callback the ICallback interface
 	 */
-	Object execute(Config config, ICallback callback) {
+	Object execute(AbstractConfig config, ICallback callback) {
 		Connection conn = null;
 		try {
 			conn = config.getConnection();
@@ -630,7 +630,7 @@ public class DbPro {
 	 * @param atom the atom operation
 	 * @return true if transaction executing succeed otherwise false
 	 */
-	boolean tx(Config config, int transactionLevel, IAtom atom) {
+	boolean tx(AbstractConfig config, int transactionLevel, IAtom atom) {
 		Connection conn = config.getThreadLocalConnection();
 		if (conn != null) {	// Nested transaction support
 			try {
@@ -692,7 +692,7 @@ public class DbPro {
 		return tx(config, config.getTransactionLevel(), atom);
 	}
 	
-	private int[] batch(Config config, Connection conn, String sql, Object[][] paras) throws SQLException {
+	private int[] batch(AbstractConfig config, Connection conn, String sql, Object[][] paras) throws SQLException {
 		if (paras == null || paras.length == 0)
 			throw new IllegalArgumentException("The paras array length must more than 0.");
 		int[] result = new int[paras.length];
@@ -740,7 +740,7 @@ public class DbPro {
 		}
 	}
 	
-	private int[] batch(Config config, Connection conn, String sql, Object[][] paras, int batchSize) throws SQLException {
+	private int[] batch(AbstractConfig config, Connection conn, String sql, Object[][] paras, int batchSize) throws SQLException {
 		if (paras == null || paras.length == 0)
 			throw new IllegalArgumentException("The paras array length must more than 0.");
 		if (batchSize < 1)
@@ -806,7 +806,7 @@ public class DbPro {
 		}
 	}
 	
-	private int[] batch(Config config, Connection conn, String sql, String columns, List list, int batchSize) throws SQLException {
+	private int[] batch(AbstractConfig config, Connection conn, String sql, String columns, List list, int batchSize) throws SQLException {
 		if (list == null || list.size() == 0)
 			return new int[0];
 		Object element = list.get(0);
@@ -882,7 +882,7 @@ public class DbPro {
 		}
 	}
 	
-	private int[] batch(Config config, Connection conn, String sql, String columns, List list) throws SQLException {
+	private int[] batch(AbstractConfig config, Connection conn, String sql, String columns, List list) throws SQLException {
         if (list == null || list.size() == 0)
             return new int[0];
         Object element = list.get(0);
@@ -947,7 +947,7 @@ public class DbPro {
         }
     }
 	
-	private int[] batch(Config config, Connection conn, List<String> sqlList, int batchSize) throws SQLException {
+	private int[] batch(AbstractConfig config, Connection conn, List<String> sqlList, int batchSize) throws SQLException {
 		if (sqlList == null || sqlList.size() == 0)
 			throw new IllegalArgumentException("The sqlList length must more than 0.");
 		if (batchSize < 1)
@@ -1002,7 +1002,7 @@ public class DbPro {
 		}
     }
     
-    private int[] batch(Config config, Connection conn, List<String> sqlList) throws SQLException {
+    private int[] batch(AbstractConfig config, Connection conn, List<String> sqlList) throws SQLException {
         if (sqlList == null || sqlList.size() == 0)
             throw new IllegalArgumentException("The sqlList length must more than 0.");
         int pointer = 0;

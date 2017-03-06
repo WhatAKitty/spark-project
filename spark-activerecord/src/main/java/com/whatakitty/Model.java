@@ -55,9 +55,9 @@ public abstract class Model<M extends Model> implements Serializable {
 	private Map<String, Object> attrs = getAttrsMap();	// getConfig().containerFactory.getAttrsMap();	// new HashMap<String, Object>();
 	
 	private Map<String, Object> getAttrsMap() {
-		Config config = getConfig();
+		AbstractConfig config = getConfig();
 		if (config == null)
-			return DbKit.brokenConfig.containerFactory.getAttrsMap();
+			return DbKit.brokenConfig().containerFactory.getAttrsMap();
 		return config.containerFactory.getAttrsMap();
 	}
 	
@@ -75,16 +75,16 @@ public abstract class Model<M extends Model> implements Serializable {
 	
 	private Set<String> getModifyFlag() {
 		if (modifyFlag == null) {
-			Config config = getConfig();
+			AbstractConfig config = getConfig();
 			if (config == null)
-				modifyFlag = DbKit.brokenConfig.containerFactory.getModifyFlagSet();
+				modifyFlag = DbKit.brokenConfig().containerFactory.getModifyFlagSet();
 			else
 				modifyFlag = config.containerFactory.getModifyFlagSet();
 		}
 		return modifyFlag;
 	}
 	
-	private Config getConfig() {
+	private AbstractConfig getConfig() {
 		return DbKit.getConfig(getClass());
 	}
 	
@@ -232,7 +232,7 @@ public abstract class Model<M extends Model> implements Serializable {
 	 * @return Page
 	 */
 	public Page<M> paginate(int pageNumber, int pageSize, String select, String sqlExceptSelect, Object... paras) {
-		Config config = getConfig();
+		AbstractConfig config = getConfig();
 		Connection conn = null;
 		try {
 			conn = config.getConnection();
@@ -244,7 +244,7 @@ public abstract class Model<M extends Model> implements Serializable {
 		}
 	}
 	
-	private Page<M> paginate(Config config, Connection conn, int pageNumber, int pageSize, String select, String sqlExceptSelect, Object... paras) throws Exception {
+	private Page<M> paginate(AbstractConfig config, Connection conn, int pageNumber, int pageSize, String select, String sqlExceptSelect, Object... paras) throws Exception {
 		if (pageNumber < 1 || pageSize < 1)
 			throw new ActiveRecordException("pageNumber and pageSize must be more than 0");
 		
@@ -304,7 +304,7 @@ public abstract class Model<M extends Model> implements Serializable {
 	 * Save model.
 	 */
 	public boolean save() {
-		Config config = getConfig();
+		AbstractConfig config = getConfig();
 		Table table = getTable();
 		
 		StringBuilder sql = new StringBuilder();
@@ -379,7 +379,7 @@ public abstract class Model<M extends Model> implements Serializable {
 	}
 	
 	private boolean deleteById(Table table, Object id) {
-		Config config = getConfig();
+		AbstractConfig config = getConfig();
 		Connection conn = null;
 		try {
 			conn = config.getConnection();
@@ -406,7 +406,7 @@ public abstract class Model<M extends Model> implements Serializable {
 		if (id == null)
 			throw new ActiveRecordException("You can't update model without Primary Key.");
 		
-		Config config = getConfig();
+		AbstractConfig config = getConfig();
 		StringBuilder sql = new StringBuilder();
 		List<Object> paras = new ArrayList<Object>();
 		config.dialect.forModelUpdate(table, attrs, getModifyFlag(), pKey, id, sql, paras);
@@ -437,7 +437,7 @@ public abstract class Model<M extends Model> implements Serializable {
 	 * Find model.
 	 */
 	private List<M> find(Connection conn, String sql, Object... paras) throws Exception {
-		Config config = getConfig();
+		AbstractConfig config = getConfig();
 		Class<? extends Model> modelClass = getClass();
 		if (config.devMode)
 			checkTableName(modelClass, sql);
@@ -457,7 +457,7 @@ public abstract class Model<M extends Model> implements Serializable {
 	 * @return the list of Model
 	 */
 	public List<M> find(String sql, Object... paras) {
-		Config config = getConfig();
+		AbstractConfig config = getConfig();
 		Connection conn = null;
 		try {
 			conn = config.getConnection();
@@ -593,7 +593,7 @@ public abstract class Model<M extends Model> implements Serializable {
 	 */
 	public M keep(String... attrs) {
 		if (attrs != null && attrs.length > 0) {
-			Config config = getConfig();
+			AbstractConfig config = getConfig();
 			Map<String, Object> newAttrs = config.containerFactory.getAttrsMap();	// new HashMap<String, Object>(attrs.length);
 			Set<String> newModifyFlag = config.containerFactory.getModifyFlagSet();	// new HashSet<String>();
 			for (String a : attrs) {

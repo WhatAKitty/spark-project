@@ -73,7 +73,6 @@
                 <module>spark-web</module>
                 <module>spark-web-auth</module>
                 <module>spark-spring</module>
-                <module>spark-activerecord-spring</module>
             </modules>
         </profile>
         <profile>

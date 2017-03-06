@@ -33,7 +33,7 @@ import javax.sql.DataSource;
 public class ActiveRecord {
 	
 	private String configName = DbKit.MAIN_CONFIG_NAME;
-	private Config config = null;
+	private AbstractConfig config = null;
 	
 	private DataSource dataSource;
 	private IDataSourceProvider dataSourceProvider;
@@ -46,7 +46,7 @@ public class ActiveRecord {
 	private boolean isStarted = false;
 	private List<Table> tableList = new ArrayList<Table>();
 	
-	public ActiveRecord(Config config) {
+	public ActiveRecord(AbstractConfig config) {
 		if (config == null)
 			throw new IllegalArgumentException("Config can not be null");
 		this.config = config;
@@ -145,6 +145,14 @@ public class ActiveRecord {
 		this.containerFactory = containerFactory;
 		return this;
 	}
+
+	public ActiveRecord setConfig(AbstractConfig config) {
+		if (config == null) {
+			throw new IllegalArgumentException("config can not be null");
+		}
+		this.config = config;
+		return this;
+	}
 	
 	public boolean start() {
 		if (isStarted)
@@ -156,7 +164,10 @@ public class ActiveRecord {
 			throw new RuntimeException("ActiveRecord start error: ActiveRecordPlugin need DataSource or DataSourceProvider");
 		
 		if (config == null)
-			config = new Config(configName, dataSource, dialect, showSql, devMode, transactionLevel, containerFactory);
+			if (Env.SingletonHolder.getInstance().isSpring())
+				config = new Config(configName, dataSource, dialect, showSql, devMode, transactionLevel, containerFactory);
+			else
+				config = new SpringConfig(configName, dataSource, dialect, showSql, devMode, transactionLevel, containerFactory);
 		DbKit.addConfig(config);
 		
 		boolean succeed = TableBuilder.build(tableList, config);

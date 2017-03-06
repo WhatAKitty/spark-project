@@ -16,6 +16,8 @@
 
 package com.whatakitty;
 
+import org.springframework.jdbc.support.JdbcUtils;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -32,16 +34,21 @@ public final class DbKit {
 	/**
 	 * The main Config object for system
 	 */
-	static Config config = null;
+	static AbstractConfig config = null;
 	
 	/**
 	 * For Model.getAttrsMap()/getModifyFlag() and Record.getColumnsMap()
 	 * while the ActiveRecordPlugin not start or the Exception throws of HashSessionManager.restorSession(..) by Jetty
 	 */
-	static Config brokenConfig = new Config();
+	static AbstractConfig brokenConfig() {
+		return Env.SingletonHolder.getInstance().isSpring() ?
+				new SpringConfig()
+				:
+				new Config();
+	}
 	
-	private static Map<Class<? extends Model>, Config> modelToConfig = new HashMap<Class<? extends Model>, Config>();
-	private static Map<String, Config> configNameToConfig = new HashMap<String, Config>();
+	private static Map<Class<? extends Model>, AbstractConfig> modelToConfig = new HashMap<Class<? extends Model>, AbstractConfig>();
+	private static Map<String, AbstractConfig> configNameToConfig = new HashMap<String, AbstractConfig>();
 	
 	static final Object[] NULL_PARA_ARRAY = new Object[0];
 	public static final String MAIN_CONFIG_NAME = "main";
@@ -52,7 +59,7 @@ public final class DbKit {
 	 * Add Config object
 	 * @param config the Config contains DataSource, Dialect and so on
 	 */
-	public static void addConfig(Config config) {
+	public static void addConfig(AbstractConfig config) {
 		if (config == null)
 			throw new IllegalArgumentException("Config can not be null");
 		if (configNameToConfig.containsKey(config.getName()))
@@ -74,32 +81,53 @@ public final class DbKit {
 			DbKit.config = config;
 	}
 	
-	static void addModelToConfigMapping(Class<? extends Model> modelClass, Config config) {
+	static void addModelToConfigMapping(Class<? extends Model> modelClass, AbstractConfig config) {
 		modelToConfig.put(modelClass, config);
 	}
 	
-	public static Config getConfig() {
+	public static AbstractConfig getConfig() {
 		return config;
 	}
 	
-	public static Config getConfig(String configName) {
+	public static AbstractConfig getConfig(String configName) {
 		return configNameToConfig.get(configName);
 	}
 	
-	public static Config getConfig(Class<? extends Model> modelClass) {
+	public static AbstractConfig getConfig(Class<? extends Model> modelClass) {
 		return modelToConfig.get(modelClass);
 	}
 	
 	static final void closeQuietly(ResultSet rs, Statement st) {
-//	  if (rs != null) JdbcUtils.closeResultSet(rs);
-//	  if (st != null) JdbcUtils.closeStatement(st);
-		if (rs != null) {try {rs.close();} catch (SQLException e) {}}
-		if (st != null) {try {st.close();} catch (SQLException e) {}}
+		if (Env.SingletonHolder.getInstance().isSpring()) {
+			if (rs != null) JdbcUtils.closeResultSet(rs);
+			if (st != null) JdbcUtils.closeStatement(st);
+		} else {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+			if (st != null) {
+				try {
+					st.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
 	}
 	
 	static final void closeQuietly(Statement st) {
-//	  if (st != null) JdbcUtils.closeStatement(st);
-		if (st != null) {try {st.close();} catch (SQLException e) {}}
+		if (Env.SingletonHolder.getInstance().isSpring()) {
+	  		if (st != null) JdbcUtils.closeStatement(st);
+		} else {
+			if (st != null) {
+				try {
+					st.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
 	}
 	
 	public static String replaceFormatSqlOrderBy(String sql) {

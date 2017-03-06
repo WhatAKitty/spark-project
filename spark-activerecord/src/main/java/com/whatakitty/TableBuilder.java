@@ -30,7 +30,7 @@ import java.util.List;
  */
 class TableBuilder {
 	
-	static boolean build(List<Table> tableList, Config config) {
+	static boolean build(List<Table> tableList, AbstractConfig config) {
 		Table temp = null;
 		Connection conn = null;
 		try {
@@ -54,7 +54,7 @@ class TableBuilder {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private static void doBuild(Table table, Connection conn, Config config) throws SQLException {
+	private static void doBuild(Table table, Connection conn, AbstractConfig config) throws SQLException {
 		table.setColumnTypeMap(config.containerFactory.getAttrsMap());
 		if (table.getPrimaryKey() == null)
 			table.setPrimaryKey(config.dialect.getDefaultPrimaryKey());

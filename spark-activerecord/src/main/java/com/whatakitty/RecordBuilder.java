@@ -29,7 +29,7 @@ import java.util.Map;
  */
 public class RecordBuilder {
 	
-	public static final List<Record> build(Config config, ResultSet rs) throws SQLException {
+	public static final List<Record> build(AbstractConfig config, ResultSet rs) throws SQLException {
 		final List<Record> result = new ArrayList<Record>();
 		buildWithCallback(config, rs, new Callback() {
 
@@ -43,7 +43,7 @@ public class RecordBuilder {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static final void buildWithCallback(Config config, ResultSet rs, final Callback callback) throws SQLException {
+	public static final void buildWithCallback(AbstractConfig config, ResultSet rs, final Callback callback) throws SQLException {
 		ResultSetMetaData rsmd = rs.getMetaData();
 		int columnCount = rsmd.getColumnCount();
 		String[] labelNames = new String[columnCount + 1];
